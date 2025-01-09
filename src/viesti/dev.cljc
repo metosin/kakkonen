@@ -7,18 +7,18 @@
 
 (defmethod virhe/-format ::v/invalid-action [_ _ {:keys [type types]} p]
   {:body [:group
-          (pretty/-block "Dispatch value:" (virhe/-visit type p) p) :break :break
-          (pretty/-block "Should be one of:" (virhe/-visit types p) p)]})
+          (virhe/-block "Dispatch value:" (virhe/-visit type p) p) :break :break
+          (virhe/-block "Should be one of:" (virhe/-visit types p) p)]})
 
 (defmethod virhe/-format ::v/no-handler [_ _ {:keys [type action]} p]
   {:body [:group
-          (pretty/-block "No handler for type:" (virhe/-visit type p) p) :break :break
-          (pretty/-block "Action:" (virhe/-visit action p) p)]})
+          (virhe/-block "No handler for type:" (virhe/-visit type p) p) :break :break
+          (virhe/-block "Action:" (virhe/-visit action p) p)]})
 
 (defmethod virhe/-format ::v/missing-permissions [_ _ {:keys [type permissions expected missing]} p]
   {:body [:group
-          (pretty/-block "With action:" (virhe/-visit type p) p) :break :break
-          (pretty/-block "Missing permission:" (virhe/-visit missing p) p) :break :break
+          (virhe/-block "With action:" (virhe/-visit type p) p) :break :break
+          (virhe/-block "Missing permission:" (virhe/-visit missing p) p) :break :break
           [:group (virhe/-text "Found " p) (virhe/-visit permissions p) (virhe/-text ", expected " p) (virhe/-visit expected p)]]})
 
 (defmethod virhe/-format ::v/invalid-actions [_ _ {:keys [explanation]} p]

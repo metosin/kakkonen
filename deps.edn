@@ -1,16 +1,16 @@
 {:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.11.1"}
-        metosin/malli {:mvn/version "0.8.4"}}
+        metosin/malli {:mvn/version "0.17.0"}}
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.65.1029"}
-                               nrepl/nrepl {:mvn/version "0.9.0"}}}
-           :cljs-test-runner {:extra-deps {olical/cljs-test-runner {:mvn/version "3.8.0"}}
+                  :extra-deps {lambdaisland/kaocha {:mvn/version "1.87.1366"}
+                               nrepl/nrepl {:mvn/version "1.1.1"}}}
+           :cljs-test-runner {:extra-deps {olical/cljs-test-runner {:mvn/version "3.8.1"}}
                               :extra-paths ["test" "cljs-test-runner-out/gen"]
                               :main-opts ["-m" "cljs-test-runner.main" "-d" "test"]}
-           :build {:deps {io.github.clojure/tools.build {:git/tag "v0.8.1" :git/sha "7d40500"}}
+           :build {:deps {io.github.clojure/tools.build {:git/tag "v0.9.6" :git/sha "8e78bcc"}}
                    :ns-default build}
            :shadow {:extra-paths ["app"]
-                    :extra-deps {thheller/shadow-cljs {:mvn/version "2.18.0"}}}
+                    :extra-deps {thheller/shadow-cljs {:mvn/version "2.27.4"}}}
            :jar {:extra-deps {pacv/pack.alpha
                               {:git/url "https://github.com/juxt/pack.alpha.git"
                                :sha "b093f79420fef019faf62a75b888b5e10f4e8cc9"}}
@@ -24,7 +24,7 @@
                                  "viesti.jar"]}
            :perf {:extra-paths ["perf"]
                   :extra-deps {criterium/criterium {:mvn/version "0.4.6"}
-                               com.clojure-goes-fast/clj-async-profiler {:mvn/version "0.5.1"}}
+                               com.clojure-goes-fast/clj-async-profiler {:mvn/version "1.2.0"}}
                   :jvm-opts ["-server"
                              "-Xmx4096m"
                              "-Dclojure.compiler.direct-linking=true"]}
