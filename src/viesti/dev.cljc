@@ -5,30 +5,33 @@
             [malli.error :as me]
             [viesti.core :as v]))
 
-(defmethod virhe/-format ::v/invalid-action [_ _ {:keys [type types]} p]
+(defn -explain-error [explanation title p]
+  (assoc (virhe/-format (ex-info title {:type ::m/explain}) (me/with-spell-checking explanation) p) :title title))
+
+(defmethod virhe/-format ::v/invalid-action [_ {:keys [type types]} p]
   {:body [:group
           (virhe/-block "Dispatch value:" (virhe/-visit type p) p) :break :break
           (virhe/-block "Should be one of:" (virhe/-visit types p) p)]})
 
-(defmethod virhe/-format ::v/no-handler [_ _ {:keys [type action]} p]
+(defmethod virhe/-format ::v/no-handler [_ {:keys [type action]} p]
   {:body [:group
           (virhe/-block "No handler for type:" (virhe/-visit type p) p) :break :break
           (virhe/-block "Action:" (virhe/-visit action p) p)]})
 
-(defmethod virhe/-format ::v/missing-permissions [_ _ {:keys [type permissions expected missing]} p]
+(defmethod virhe/-format ::v/missing-permissions [_ {:keys [type permissions expected missing]} p]
   {:body [:group
           (virhe/-block "With action:" (virhe/-visit type p) p) :break :break
           (virhe/-block "Missing permission:" (virhe/-visit missing p) p) :break :break
           [:group (virhe/-text "Found " p) (virhe/-visit permissions p) (virhe/-text ", expected " p) (virhe/-visit expected p)]]})
 
-(defmethod virhe/-format ::v/invalid-actions [_ _ {:keys [explanation]} p]
-  (assoc (virhe/-format ::m/explain nil (me/with-spell-checking explanation) p) :title "Invalid Actions"))
+(defmethod virhe/-format ::v/invalid-actions [_ {:keys [explanation]} p]
+  (-explain-error explanation "Invalid Actions" p))
 
-(defmethod virhe/-format ::v/input-schema-error [_ _ {:keys [explanation]} p]
-  (assoc (virhe/-format ::m/explain nil explanation p) :title "Input Schema Error"))
+(defmethod virhe/-format ::v/input-schema-error [_ {:keys [explanation]} p]
+  (-explain-error explanation "Input Schema Error" p))
 
-(defmethod virhe/-format ::v/output-schema-error [_ _ {:keys [explanation]} p]
-  (assoc (virhe/-format ::m/explain nil explanation p) :title "Output Schema Error"))
+(defmethod virhe/-format ::v/output-schema-error [_ {:keys [explanation]} p]
+  (-explain-error explanation "Output Schema Error" p))
 
 ;;
 ;; Public API
